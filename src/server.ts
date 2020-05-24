@@ -13,7 +13,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   // Use the body parser middleware for post requests
   app.use(bodyParser.json());
   
-  app.get("/filteredimage", async ( req, res ) => {
+  app.get("/filteredimage", async ( req:express.Request , res:express.Response ) => {
     let { image_url } = req.query;
 
     if (!image_url) {
@@ -23,7 +23,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
     else if (image_url) {
       if (/(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/i.test(image_url.toString())) {
         try {
-          const responseImagePath = await filterImageFromURL(image_url);
+          const responseImagePath:string = await filterImageFromURL(image_url);
           res.status(200)
              .sendFile(responseImagePath, () => deleteLocalFiles([responseImagePath]))
         } catch (error) {
@@ -40,7 +40,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
   // Root Endpoint
   // Displays a simple message to the user
-  app.get( "/", async ( req, res ) => {
+  app.get( "/", async ( req:express.Request , res:express.Response ) => {
     res.send("try GET /filteredimage?image_url={{}}")
   } );
   
